@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1778112937600,
+    "nama": "RIfal SEptia",
+    "nik": "222",
+    "jenis": "Usaha",
+    "file": "1778112937596-152023194_RifalSeptia_Tugas1.pdf",
+    "status": "Disetujui"
+  },
+  {
+    "id": 1778113084178,
+    "nama": "asda",
+    "nik": "2222222222222222",
+    "jenis": "Tidak Mampu",
+    "file": "1778113084062-152023194_RifalSeptia_Tugas2.docx",
+    "status": "Pending"
+  },
+  {
+    "id": 1778113258858,
+    "nama": "ssss",
+    "nik": "1111111111111111",
+    "jenis": "Surat Keterangan Kematian",
+    "file": "1778113258687-D6-LogBookMingguan-3.pdf",
+    "status": "Pending"
+  }
+]

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Pengajuan Surat Desa | Layanan Digital</title>
+
+<!-- Google Fonts & Font Awesome -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+    background: linear-gradient(145deg, #eef2f7 0%, #d9e2ec 100%);
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+    position: relative;
+  }
+
+  /* decorative background */
+  body::before {
+    content: "";
+    position: fixed;
+    top: -20%;
+    left: -15%;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(circle, rgba(46,125,170,0.1) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    bottom: -15%;
+    right: -10%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(56,142,96,0.08) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .form-container {
+    max-width: 780px;
+    width: 100%;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(2px);
+    border-radius: 2rem;
+    box-shadow: 0 30px 55px -20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.6);
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+  }
+
+  .form-header {
+    background: linear-gradient(135deg, #0b3b2f 0%, #1a5f4b 100%);
+    padding: 1.8rem 2rem;
+    color: white;
+    text-align: center;
+  }
+
+  .back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(4px);
+    border-radius: 60px;
+    padding: 0.4rem 1.2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+    transition: 0.2s;
+    text-decoration: none;
+    color: white;
+  }
+
+  .back-home i {
+    font-size: 0.8rem;
+  }
+
+  .back-home:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateX(-4px);
+  }
+
+  .form-header h2 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-header p {
+    opacity: 0.85;
+    font-size: 0.9rem;
+  }
+
+  .step-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background: #fefefeec;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    flex-wrap: wrap;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #2c5f52;
+  }
+
+  .step i {
+    background: #e9f0ee;
+    padding: 0.3rem;
+    border-radius: 50%;
+    width: 26px;
+    text-align: center;
+  }
+
+  form {
+    padding: 2rem 2rem 2rem 2rem;
+  }
+
+  .input-group {
+    margin-bottom: 1.6rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input-group label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    color: #1f3e37;
+    letter-spacing: -0.2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .input-group label i {
+    color: #1a5f4b;
+    width: 20px;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 1.2rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    background: white;
+    outline: none;
+    color: #1e2a2a;
+  }
+
+  input:focus, select:focus {
+    border-color: #1a5f4b;
+    box-shadow: 0 0 0 3px rgba(26, 95, 75, 0.2);
+  }
+
+  .file-upload-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .file-upload-area {
+    border: 2px dashed #cbd5e1;
+    border-radius: 1.2rem;
+    padding: 1.2rem;
+    text-align: center;
+    cursor: pointer;
+    background: #fafcff;
+    transition: 0.2s;
+  }
+
+  .file-upload-area:hover {
+    border-color: #1a5f4b;
+    background: #f0f9f5;
+  }
+
+  .file-upload-area i {
+    font-size: 2rem;
+    color: #2c7a64;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .file-name {
+    font-size: 0.75rem;
+    color: #4b6b62;
+    margin-top: 6px;
+    word-break: break-all;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  .btn-submit {
+    background: linear-gradient(95deg, #0f5e4a, #1a7b62);
+    border: none;
+    color: white;
+    font-weight: 700;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 3rem;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 0.8rem;
+    box-shadow: 0 8px 18px rgba(26, 95, 75, 0.3);
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(95deg, #0c4d3d, #146b57);
+    box-shadow: 0 12px 22px rgba(26, 95, 75, 0.4);
+  }
+
+  .info-note {
+    background: #ecfdf5;
+    border-radius: 1rem;
+    padding: 0.8rem 1rem;
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    color: #115e49;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .info-note i {
+    font-size: 1rem;
+  }
+
+  /* Toast notification */
+  .toast-message {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background: #1f3e37;
+    color: white;
+    padding: 0.8rem 1.8rem;
+    border-radius: 60px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1000;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+  }
+
+  .toast-message.show {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  .toast-message.error {
+    background: #b91c1c;
+  }
+
+  @media (max-width: 600px) {
+    .form-container {
+      margin: 0;
+      border-radius: 1.5rem;
+    }
+    form {
+      padding: 1.5rem;
+    }
+    .form-header h2 {
+      font-size: 1.5rem;
+    }
+    .step-indicator {
+      gap: 0.5rem;
+    }
+    .step {
+      font-size: 0.7rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="form-container">
+  <div class="form-header">
+    <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+    <h2><i class="fas fa-file-alt"></i> Pengajuan Surat Desa</h2>
+    <p>Isi data dengan benar & lengkap untuk mempercepat proses verifikasi</p>
+  </div>
+
+  <div class="step-indicator">
+    <div class="step"><i class="fas fa-user-check"></i> Data Diri</div>
+    <div class="step"><i class="fas fa-file-pdf"></i> Jenis Surat</div>
+    <div class="step"><i class="fas fa-upload"></i> Lampiran</div>
+  </div>
+
+  <form id="formData" enctype="multipart/form-data">
+    <div class="input-group">
+      <label><i class="fas fa-user"></i> Nama Lengkap</label>
+      <input type="text" name="nama" placeholder="Contoh: Siti Nurhaliza" required>
+    </div>
+
+    <div class="input-group">
+      <label><i class="fas fa-id-card"></i> NIK (Nomor Induk Kependudukan)</label>
+      <input type="text" name="nik" placeholder="16 digit NIK" maxlength="16" pattern="[0-9]{16}" title="Harus 16 digit angka" required>
+    </div>
+
+    <div class="input-group">
+      <label><i class="fas fa-envelope-open-text"></i> Jenis Surat</label>
+      <select name="jenis" required>
+        <option value="" disabled selected>-- Pilih jenis surat --</option>
+        <option>Surat Keterangan Domisili</option>
+        <option>Surat Keterangan Usaha</option>
+        <option>Surat Keterangan Tidak Mampu</option>
+        <option>Surat Keterangan Kelahiran</option>
+        <option>Surat Keterangan Kematian</option>
+        <option>Surat Keterangan Janda/Duda</option>
+        <option>Surat Keterangan Ahli Waris</option>
+        <option>Surat Izin Keramaian</option>
+        <option>Surat Rekomendasi SKCK</option>
+        <option>Surat Keterangan Pindah Datang</option>
+        <option>Surat Pengantar E-KTP</option>
+        <option>Surat Keterangan Kehilangan</option>
+        <option>Surat Keterangan Penghasilan</option>
+        <option>Surat Keterangan Warisan</option>
+        <option>Surat Keterangan Beda Nama</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label><i class="fas fa-paperclip"></i> Lampiran Berkas (PDF/JPEG/PNG, maks 5MB)</label>
+      <div class="file-upload-wrapper">
+        <div class="file-upload-area" id="fileUploadArea">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <span>Klik atau seret file ke sini</span>
+          <div class="file-name" id="fileNameDisplay">Belum ada file dipilih</div>
+        </div>
+        <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required>
+      </div>
+    </div>
+
+    <div class="info-note">
+      <i class="fas fa-info-circle"></i> Pastikan data sesuai KTP dan unggah dokumen pendukung (KTP, KK, atau surat pengantar RW). Maksimal ukuran file 5MB.
+    </div>
+
+    <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Kirim Pengajuan</button>
+  </form>
+  <div class="info-note" style="margin: 0 2rem 1.8rem 2rem; background: #fef9e3;">
+    <i class="fas fa-clock"></i> Pengajuan akan diproses maksimal 2x24 jam. Status dapat dilihat di dashboard admin.
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-message">
+  <i class="fas fa-check-circle"></i> <span id="toastText">Pengajuan berhasil dikirim!</span>
+</div>
+
+<script>
+// ==============================================
+// FUNGSI CRUD ASLI (tetap menggunakan fetch ke /api/pengajuan)
+// Tidak ada perubahan pada logika utama pengiriman data ke database
+// ==============================================
+
+const form = document.getElementById("formData");
+const toastMsg = document.getElementById("toastMsg");
+const toastText = document.getElementById("toastText");
+
+function showToast(message, isError = false) {
+  toastText.innerText = message;
+  if (isError) {
+    toastMsg.classList.add("error");
+  } else {
+    toastMsg.classList.remove("error");
+  }
+  toastMsg.classList.add("show");
+  setTimeout(() => {
+    toastMsg.classList.remove("show");
+  }, 4000);
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // Validasi tambahan sebelum submit (agar user experience lebih baik)
+  const nama = form.nama.value.trim();
+  const nik = form.nik.value.trim();
+  const jenis = form.jenis.value;
+  const file = form.file.files[0];
+
+  if (!nama) {
+    showToast("Nama lengkap harus diisi", true);
+    form.nama.focus();
+    return;
+  }
+  if (!nik) {
+    showToast("NIK harus diisi", true);
+    form.nik.focus();
+    return;
+  }
+  if (!/^\d{16}$/.test(nik)) {
+    showToast("NIK harus 16 digit angka", true);
+    form.nik.focus();
+    return;
+  }
+  if (!jenis || jenis === "") {
+    showToast("Pilih jenis surat terlebih dahulu", true);
+    return;
+  }
+  if (!file) {
+    showToast("Harap unggah file lampiran", true);
+    return;
+  }
+
+  // Validasi ukuran file (maks 5MB)
+  if (file.size > 5 * 1024 * 1024) {
+    showToast("Ukuran file maksimal 5MB", true);
+    return;
+  }
+
+  const formData = new FormData(form);
+
+  try {
+    // Kirim ke endpoint yang sama seperti kode asli
+    const res = await fetch("/api/pengajuan", {
+      method: "POST",
+      body: formData
+    });
+
+    const result = await res.json();
+    showToast(result.message || "Pengajuan berhasil dikirim!");
+
+    if (res.ok) {
+      form.reset();
+      // Reset tampilan file upload
+      const fileNameDisplay = document.getElementById("fileNameDisplay");
+      if (fileNameDisplay) fileNameDisplay.innerText = "Belum ada file dipilih";
+      const fileInput = document.getElementById("fileInput");
+      if (fileInput) fileInput.value = "";
+      // Reset select ke placeholder
+      form.jenis.value = "";
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    showToast("Gagal mengirim pengajuan. Periksa koneksi atau coba lagi.", true);
+  }
+});
+
+// ==============================================
+// UI ENHANCEMENT (Hanya untuk tampilan file upload, tidak mengganggu CRUD)
+// ==============================================
+(function() {
+  const fileInput = document.getElementById('fileInput');
+  const fileUploadArea = document.getElementById('fileUploadArea');
+  const fileNameDisplay = document.getElementById('fileNameDisplay');
+  
+  if (fileInput && fileUploadArea && fileNameDisplay) {
+    fileInput.addEventListener('change', function() {
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const sizeKB = (file.size / 1024).toFixed(1);
+        fileNameDisplay.innerText = file.name + ' (' + sizeKB + ' KB)';
+      } else {
+        fileNameDisplay.innerText = 'Belum ada file dipilih';
+      }
+    });
+    
+    fileUploadArea.addEventListener('click', () => {
+      fileInput.click();
+    });
+    
+    fileUploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      fileUploadArea.style.background = "#e6f7f0";
+      fileUploadArea.style.borderColor = "#1a5f4b";
+    });
+    
+    fileUploadArea.addEventListener('dragleave', () => {
+      fileUploadArea.style.background = "#fafcff";
+      fileUploadArea.style.borderColor = "#cbd5e1";
+    });
+    
+    fileUploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      fileUploadArea.style.background = "#fafcff";
+      fileUploadArea.style.borderColor = "#cbd5e1";
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        fileInput.files = files;
+        const event = new Event('change', { bubbles: true });
+        fileInput.dispatchEvent(event);
+      }
+    });
+  }
+  
+  // Validasi NIK hanya angka
+  const nikInput = document.querySelector('input[name="nik"]');
+  if (nikInput) {
+    nikInput.addEventListener('input', function(e) {
+      this.value = this.value.replace(/\D/g, '').slice(0, 16);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

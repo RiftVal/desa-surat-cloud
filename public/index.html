@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Sistem Pengajuan Surat Desa | Layanan Digital Terpadu</title>
+  <!-- Google Fonts: Poppins untuk modern & clean -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+      background: linear-gradient(145deg, #eef2f7 0%, #d9e2ec 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+
+    /* decorative background shapes */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -30%;
+      left: -20%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(46,125,170,0.12) 0%, rgba(0,0,0,0) 70%);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      bottom: -20%;
+      right: -15%;
+      width: 70%;
+      height: 70%;
+      background: radial-gradient(circle, rgba(56,142,96,0.1) 0%, rgba(0,0,0,0) 70%);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* main card container */
+    .hero-container {
+      max-width: 1200px;
+      width: 100%;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(2px);
+      border-radius: 3rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.5);
+      overflow: hidden;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    /* Header / branding section */
+    .brand-section {
+      background: linear-gradient(135deg, #0b3b2f 0%, #1a5f4b 100%);
+      padding: 2rem 2.5rem;
+      color: white;
+      text-align: center;
+    }
+
+    .badge-desa {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(4px);
+      border-radius: 40px;
+      padding: 0.35rem 1.25rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .brand-section h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-section .sub {
+      font-size: 1rem;
+      opacity: 0.9;
+      font-weight: 400;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* konten utama grid: dua tombol utama */
+    .action-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      padding: 3rem 2.5rem;
+      background: rgba(255,255,255,0.7);
+    }
+
+    .card-link {
+      flex: 1;
+      min-width: 260px;
+      background: white;
+      border-radius: 2rem;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.05);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      overflow: hidden;
+    }
+
+    .card-link:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 45px -15px rgba(0,0,0,0.2);
+    }
+
+    .card-inner {
+      padding: 2rem 1.8rem;
+      text-align: center;
+    }
+
+    .icon-wrapper {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(145deg, #eef2f9, #e0e8f0);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2.8rem;
+      color: #1e5c4c;
+      transition: 0.2s;
+    }
+
+    .card-link:hover .icon-wrapper {
+      background: linear-gradient(145deg, #1a5f4b, #0f3f32);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .card-inner h2 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #1b2f2a, #2b5e4f);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .card-inner p {
+      color: #4a5568;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .btn-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #f0f4f9;
+      padding: 0.7rem 1.5rem;
+      border-radius: 60px;
+      font-weight: 600;
+      color: #1e5c4c;
+      transition: 0.2s;
+    }
+
+    .card-link:hover .btn-arrow {
+      background: #1a5f4b;
+      color: white;
+      gap: 14px;
+    }
+
+    /* admin card style sedikit berbeda (nuansa gelap) */
+    .card-link.admin-card .icon-wrapper {
+      background: linear-gradient(145deg, #f0eef7, #e5e1f0);
+      color: #3c2a6b;
+    }
+    .card-link.admin-card:hover .icon-wrapper {
+      background: linear-gradient(145deg, #2c3d5c, #1f2c46);
+      color: white;
+    }
+    .card-link.admin-card .card-inner h2 {
+      background: linear-gradient(135deg, #2c3e50, #1f3b4a);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    /* fitur tambahan: statistik / info layanan */
+    .info-strip {
+      background: #ffffffcc;
+      backdrop-filter: blur(8px);
+      padding: 1.2rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.9rem;
+      color: #2d3e3a;
+      font-weight: 500;
+    }
+
+    .info-item i {
+      font-size: 1.2rem;
+      color: #1a5f4b;
+    }
+
+    /* footer sederhana */
+    .footer-note {
+      background: #f8fafc;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #476055;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* responsif */
+    @media (max-width: 700px) {
+      .brand-section h1 {
+        font-size: 1.7rem;
+      }
+      .action-grid {
+        padding: 2rem 1.5rem;
+        gap: 1.5rem;
+      }
+      .card-inner {
+        padding: 1.5rem 1.2rem;
+      }
+      .icon-wrapper {
+        width: 65px;
+        height: 65px;
+        font-size: 2.2rem;
+      }
+      .card-inner h2 {
+        font-size: 1.7rem;
+      }
+      .info-strip {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* animasi hover halus */
+    .card-link {
+      will-change: transform;
+    }
+
+    /* mode dark friendly? tetap cerah dan elegan */
+    a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+<div class="hero-container">
+  <div class="brand-section">
+    <span class="badge-desa"><i class="fas fa-tree"></i>  DESA MAJU BERSAMA  <i class="fas fa-hand-sparkles"></i></span>
+    <h1>Sistem Pengajuan Surat Desa</h1>
+    <div class="sub">Layanan digital satu pintu untuk warga desa. Ajukan berbagai surat keterangan secara online, cepat, dan terintegrasi.</div>
+  </div>
+
+  <div class="info-strip">
+    <div class="info-item"><i class="fas fa-check-circle"></i> <span>Proses cepat & transparan</span></div>
+    <div class="info-item"><i class="fas fa-file-signature"></i> <span>Jenis surat: Domisili, Usaha, Keterangan, dll.</span></div>
+    <div class="info-item"><i class="fas fa-clock"></i> <span>Update status real-time</span></div>
+  </div>
+
+  <div class="action-grid">
+    <!-- Kartu AJUKAN SURAT (untuk warga) -->
+    <a href="form.html" class="card-link" aria-label="Ajukan Surat">
+      <div class="card-inner">
+        <div class="icon-wrapper">
+          <i class="fas fa-pen-fancy"></i>
+        </div>
+        <h2>Ajukan Surat</h2>
+        <p>Isi data dan unggah persyaratan untuk mengajukan surat desa yang Anda butuhkan. Mudah, aman, dan tanpa antre.</p>
+        <span class="btn-arrow">Buat Pengajuan <i class="fas fa-arrow-right"></i></span>
+      </div>
+    </a>
+
+    <!-- Kartu DASHBOARD ADMIN -->
+    <a href="admin.html" class="card-link admin-card" aria-label="Dashboard Admin">
+      <div class="card-inner">
+        <div class="icon-wrapper">
+          <i class="fas fa-users-cog"></i>
+        </div>
+        <h2>Dashboard Admin</h2>
+        <p>Akses panel administrator desa. Verifikasi data, terbitkan surat, kelola arsip & statistik pengajuan.</p>
+        <span class="btn-arrow">Masuk Dashboard <i class="fas fa-shield-alt"></i></span>
+      </div>
+    </a>
+  </div>
+
+  <div class="footer-note">
+    <i class="fas fa-landmark"></i>  Pelayanan Prima Desa • Jam Operasional Online 24/7 • Bantuan: layanan@desamaju.id  <i class="fas fa-envelope"></i>
+  </div>
+</div>
+
+<!-- tambahan efek smooth & opsi pesan jika link dummy (hanya visual) -->
+<script>
+  (function() {
+    // Menambahkan sedikit interaksi untuk menunjukkan bahwa 'form.html' dan 'admin.html' akan aktif.
+    // Karena ini hanya tampilan halaman utama yang menarik, kita memberikan notifikasi ringan jika file tersebut belum ada (opsional: hanya console friendly)
+    const links = document.querySelectorAll('.card-link');
+    links.forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === 'form.html' || href === 'admin.html') {
+          // tidak melakukan prevent default supaya routing tetap berjalan
+          // Namun untuk demo di lingkungan lokal, jika file belum tersedia, tetap warning tidak mengganggu
+          // Tampilan tetap fungsional. Jika ingin tambahan efek smooth bisa ditambahkan
+          console.log(`Navigasi menuju: ${href}`);
+        }
+      });
+    });
+    
+    // Hiasan elegan: hover effect parallax halus bukan untuk performa
+    const container = document.querySelector('.hero-container');
+    if(container) {
+      container.addEventListener('mousemove', (e) => {
+        // efek sangat halus pada bayangan (opsional dekoratif)
+        let x = (e.clientX / window.innerWidth) * 2 - 1;
+        let y = (e.clientY / window.innerHeight) * 2 - 1;
+        container.style.boxShadow = `${x * 5}px ${y * 8}px 35px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.6)`;
+      });
+      container.addEventListener('mouseleave', () => {
+        container.style.boxShadow = "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.5)";
+      });
+    }
+  })();
+</script>
+</body>
+</html>
